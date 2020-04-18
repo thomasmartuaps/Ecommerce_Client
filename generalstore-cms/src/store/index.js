@@ -35,6 +35,13 @@ export default new Vuex.Store({
         })
         .finally(_ => {
         })
+    },
+    upload: function ({ commit }, productData) {
+      axios({
+        method: 'POST',
+        url: '',
+        data: productData
+      })
     }
   },
   modules: {
