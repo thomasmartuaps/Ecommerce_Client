@@ -8,6 +8,17 @@
   </div>
 </template>
 
+<script>
+export default {
+  name: 'App',
+  created: function () {
+    if (!localStorage.getItem('token')) {
+      this.$router.push({ path: 'login' })
+    }
+  }
+}
+</script>
+
 <style>
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
