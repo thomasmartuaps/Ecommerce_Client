@@ -1,19 +1,19 @@
 <template>
-  <div class="home">    
+  <div class="home">
     <div class="navbar-fixed">
       <nav>
         <div class="nav-wrapper">
-          <a href="#!" class="brand-logo">Logo</a>
+          <a href="#!" class="brand-logo">GeneralStore-CMS</a>
           <ul class="right hide-on-med-and-down">
-            <li><a href=""></a></li>
+            <li>Welcome back, admin.</li>
             <li><a href="">Logout</a></li>
           </ul>
         </div>
       </nav>
     </div>
+    <br>
     <a class="btn-floating btn-large waves-effect waves-light red"><i class="material-icons">add</i></a>
     <!-- <HelloWorld msg="Welcome to Your Vue.js App"/> -->
-    
   </div>
 </template>
 
