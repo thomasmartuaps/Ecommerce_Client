@@ -9,9 +9,21 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     products: [],
-    heroku: 'https://generalstore-server-90210.herokuapp.com'
+    heroku: 'https://generalstore-server-90210.herokuapp.com',
+    isLoading: false,
+    updating: {}
   },
   mutations: {
+    SET_PRODUCTS (state, payload) {
+      state.products = payload
+    },
+    SET_LOADING (state, payload) {
+      state.isLoading = payload
+    },
+    SET_UPDATING (state, payload) {
+      state.updating = payload
+      router.push(`/update/${payload.id}`)
+    }
   },
   actions: {
     login: function ({ commit }, loginData) {
@@ -36,11 +48,104 @@ export default new Vuex.Store({
         .finally(_ => {
         })
     },
-    upload: function ({ commit }, productData) {
+    // upload: function ({ commit }, productData) {
+    //   axios({
+    //     method: 'POST',
+    //     url: 'https://api.pixhost.to/images',
+    //     headers: {
+    //       'Content-Type': 'multipart/form-data',
+    //       Accept: 'application/json'
+    //     },
+    //     data: {
+    //       img: productData.image,
+    //       content_type: 0
+    //     }
+    //   }).then(response => {
+    //     console.log(response.data)
+    //   })
+    //     .catch(err => {
+    //       console.log(err)
+    //     })
+    // }
+    addItem: function ({ commit }, productData) {
+      commit('SET_LOADING', true)
       axios({
         method: 'POST',
-        url: '',
+        url: `${this.state.heroku}/product`,
+        headers: {
+          token: localStorage.getItem('token')
+        },
         data: productData
+      }).then(response => {
+        M.toast({ html: `${response.data.name} created` })
+        router.push('/product-list')
+      }).catch(err => {
+        M.toast({ html: err.response.data })
+      }).finally(_ => {
+        commit('SET_LOADING', false)
+      })
+    },
+    fetchProducts: function ({ commit }) {
+      commit('SET_LOADING', true)
+      axios({
+        method: 'GET',
+        url: `${this.state.heroku}/product`,
+        headers: {
+          token: localStorage.getItem('token')
+        }
+      }).then(response => {
+        commit('SET_PRODUCTS', response.data)
+      })
+        .catch(err => {
+          M.toast({ html: err.response.data })
+        })
+        .finally(_ => {
+          commit('SET_LOADING', false)
+        })
+    },
+    getUpdatePage: function ({ commit }, product) {
+      commit('SET_UPDATING', product)
+    },
+    editItem: function ({ commit }, product) {
+      commit('SET_LOADING', true)
+      axios({
+        method: 'PUT',
+        url: `${this.state.heroku}/product/${product.id}`,
+        headers: {
+          token: localStorage.getItem('token')
+        },
+        data: {
+          name: product.name,
+          // image_url: product.image_url,
+          price: product.price,
+          stock: product.stock,
+          category: product.category
+        }
+      })
+        .then(response => {
+          M.toast({ html: `${product.name} edited to ${response.data.name}` })
+          router.push('/product-list')
+        })
+        .catch(err => {
+          console.log(err.response.data)
+          M.toast({ html: err.response.data })
+        })
+        .finally(_ => {
+          commit('SET_LOADING', false)
+        })
+    },
+    deleteItem: function ({ commit, dispatch }, productId) {
+      axios({
+        method: 'DELETE',
+        url: `${this.state.heroku}/product/${productId}`,
+        headers: {
+          token: localStorage.getItem('token')
+        }
+      }).then(response => {
+        M.toast({ html: response.data.message })
+        dispatch('fetchProducts')
+      }).catch(err => {
+        M.toast({ html: err.response.data })
       })
     }
   },

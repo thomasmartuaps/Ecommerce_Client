@@ -1,26 +1,29 @@
 <template>
   <div>
-      <h3>Add New Item</h3>
+      <h3>Edit Item</h3>
       <br>
       <Loading v-if="isLoading"/>
       <div v-else class="item-form">
         <form enctype="multipart/form-data">
           <div class="input-field col s2">
             <input type="text" id="item-name" v-model="name" class="validate">
-            <label for="item-name">Item Name</label><br>
+            <!-- <label for="item-name">Item Name</label> -->
+            <br>
           </div>
           <div class="input-field col s2">
             <input type="number" id="item-price" v-model="price" class="validate">
-            <label for="item-price">Price</label><br>
+            <!-- <label for="item-price">Price</label> -->
+            <br>
           </div>
           <div class="input-field col s2">
             <input type="number" id="item-stock" v-model="stock" class="validate">
-            <label for="item-stock">Stock</label><br>
+            <!-- <label for="item-stock">Stock</label> -->
+            <br>
           </div>
           <div class="input-field col s2">
             <label for="cat">Category</label><br><br>
             <select id="cat" class="browser-default" v-model="category">
-              <option value="General" disabled selected>Choose your option</option>
+              <option disabled>Choose your option</option>
               <option value="Toys">Toys</option>
               <option value="Techs">Techs</option>
               <option value="General">General</option>
@@ -38,12 +41,10 @@
 </template>
 
 <script>
-// import axios from 'axios'
-// import M from 'materialize-css'
 import Loading from '../components/Loading.vue'
 
 export default {
-  name: 'AddProduct',
+  name: 'UpdateProduct',
   data () {
     return {
       name: '',
@@ -67,7 +68,7 @@ export default {
       // productData.append('category', this.category)
       // productData.append('price', this.price)
       // productData.append('stock', this.stock)
-      this.$store.dispatch('addItem', {
+      this.$store.dispatch('editItem', {
         name: this.name,
         category: this.category,
         price: this.price,
@@ -84,10 +85,10 @@ export default {
     }
   },
   created () {
-    // document.addEventListener('DOMContentLoaded', function () {
-    //   var elems = document.querySelectorAll('select')
-    //   var instances = M.FormSelect.init(elems, options)
-    // })
+    this.name = this.$store.state.updating.name
+    this.category = this.$store.state.updating.category
+    this.price = this.$store.state.updating.price
+    this.stock = this.$store.state.updating.stock
   }
 }
 </script>

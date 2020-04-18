@@ -4,6 +4,7 @@ import Home from '../views/Home.vue'
 import Login from '../views/Login.vue'
 import AddItem from '../views/AddItem.vue'
 import ProductList from '../views/ProductList.vue'
+import Update from '../views/Update.vue'
 
 Vue.use(VueRouter)
 
@@ -20,6 +21,10 @@ const routes = [
       {
         path: '/product-list',
         component: ProductList
+      },
+      {
+        path: '/update/:id',
+        component: Update
       }
     ]
   },

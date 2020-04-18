@@ -1,9 +1,9 @@
 <template>
   <div class="home">
     <div class="navbar-fixed">
-      <nav>
-        <div class="nav-wrapper">
-          <a href="#!" class="brand-logo">GeneralStore-CMS</a>
+      <nav class="green darken-3">
+        <div class="nav-wrapper green darken-3">
+          <a href="" v-on:click.prevent class="left brand-logo bold"><i class="material-icons left">store_mall_directory</i>GeneralStore-CMS</a>
           <ul class="right hide-on-med-and-down">
             <li>Welcome back, admin.</li>
             <li><a href="" v-on:click.prevent="logout">Logout</a></li>

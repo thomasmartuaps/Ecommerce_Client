@@ -1,6 +1,7 @@
 <template>
   <div class="login-register">
-    <h2><b>GeneralStore-CMS</b></h2>
+    <i class="material-icons large">store_mall_directory</i>
+    <h2 class="center-align"><b>GeneralStore-CMS</b></h2>
     <div id="login-div">
       <form id="login">
         <p> <b>Enter admin credentials to continue:</b> </p>
