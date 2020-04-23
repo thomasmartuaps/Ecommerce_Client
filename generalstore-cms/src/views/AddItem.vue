@@ -67,6 +67,8 @@ export default {
       // productData.append('category', this.category)
       // productData.append('price', this.price)
       // productData.append('stock', this.stock)
+      // productData.append('next', 'addItem')
+      // this.$store.dispatch('upload', productData)
       this.$store.dispatch('addItem', {
         name: this.name,
         category: this.category,
