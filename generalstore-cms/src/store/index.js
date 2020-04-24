@@ -48,25 +48,28 @@ export default new Vuex.Store({
         .finally(_ => {
         })
     },
-    // upload: function ({ commit }, productData) {
-    //   axios({
-    //     method: 'POST',
-    //     url: 'https://api.pixhost.to/images',
-    //     headers: {
-    //       'Content-Type': 'multipart/form-data',
-    //       Accept: 'application/json'
-    //     },
-    //     data: {
-    //       img: productData.image,
-    //       content_type: 0
-    //     }
-    //   }).then(response => {
-    //     console.log(response.data)
-    //   })
-    //     .catch(err => {
-    //       console.log(err)
-    //     })
-    // }
+    upload: function ({ commit, dispatch }, productData) {
+      axios({
+        method: 'POST',
+        url: 'https://api.imgur.com/3/upload',
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          Accept: 'application/json',
+          Authorization: 'Client-ID 3c477b668152078',
+          'Access-Control-Allow-Origin': '*'
+        },
+        data: {
+          img: productData.image,
+          content_type: 0
+        }
+      }).then(response => {
+        console.log(response.data)
+        // dispatch(productData.next)
+      })
+        .catch(err => {
+          console.log(err)
+        })
+    },
     addItem: function ({ commit }, productData) {
       commit('SET_LOADING', true)
       axios({
@@ -110,7 +113,7 @@ export default new Vuex.Store({
       commit('SET_LOADING', true)
       axios({
         method: 'PUT',
-        url: `${this.state.heroku}/product/${product.id}`,
+        url: `${this.state.heroku}/product/${this.state.updating.id}`,
         headers: {
           token: localStorage.getItem('token')
         },
@@ -123,7 +126,7 @@ export default new Vuex.Store({
         }
       })
         .then(response => {
-          M.toast({ html: `${product.name} edited to ${response.data.name}` })
+          M.toast({ html: `Item edited to ${response.data.name}` })
           router.push('/product-list')
         })
         .catch(err => {
